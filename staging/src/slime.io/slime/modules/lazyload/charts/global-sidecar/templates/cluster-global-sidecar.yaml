@@ -344,6 +344,12 @@ spec:
 {{- if (ne $f.disableIpv4Passthrough true) }}
                 - match:
                     prefix: /
+                    grpc: {}
+                  route:
+                    cluster: PassthroughCluster
+                    timeout: 0s
+                - match:
+                    prefix: /
                     headers:
                     - name: ':authority'
                       string_match:
