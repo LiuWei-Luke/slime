@@ -107,7 +107,7 @@ func (r *ServicefenceReconciler) StartSvcCache(ctx context.Context) {
 							portProtos = make(map[Protocol]uint)
 							r.portProtocolCache.Data[p] = portProtos
 						}
-						if isHttp(port) {
+						if isHttpOrGrpc(port) {
 							portProtos[ProtocolHTTP]++
 						}
 					}
@@ -158,12 +158,13 @@ func (r *ServicefenceReconciler) StartAutoPort(ctx context.Context) {
 	}()
 }
 
-func isHttp(port corev1.ServicePort) bool {
+func isHttpOrGrpc(port corev1.ServicePort) bool {
 	if port.Protocol != "TCP" {
 		return false
 	}
 	p := strings.Split(port.Name, "-")[0]
-	return PortProtocol(p) == HTTP
+	protocol := PortProtocol(p)
+	return protocol == HTTP || protocol == GRPC || protocol == HTTP2
 }
 
 func updateWormholePort(wormholePort []string, portProtocolCache *PortProtocolCache) ([]string, bool) {
