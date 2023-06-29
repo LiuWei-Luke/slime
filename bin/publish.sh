@@ -5,7 +5,7 @@
 
 source "$(dirname $0)"/*.env.sh 2>/dev/null
 
-HUB=${HUB:-"docker.io/slimeio registry.cn-hangzhou.aliyuncs.com/slimeio"}
+HUB=${HUB:-"registry.dustess.com:9000/energize-platform/slimeio"}
 PUSH_HUBS="$HUB"
 first_hub=$(echo $HUB | awk -F " " '{print $1}')
 TARGET_GOARCH=${TARGET_GOARCH:-${GOARCH:-amd64}}
